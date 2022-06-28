@@ -34,7 +34,4 @@ class RepositoryModule {
         @IoDispatcher ioDispatcher: CoroutineDispatcher
     ): Repository =
         MoviesRepository(apiService, movieMapper, ioDispatcher)
-
-    //@Provides
-    //fun providePostsRepository(api: PostsApi): PostsRepository = PostsRepositoryImpl(api)
 }

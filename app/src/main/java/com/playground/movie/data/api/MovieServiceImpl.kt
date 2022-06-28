@@ -12,7 +12,7 @@ import io.ktor.http.*
  */
 class MovieServiceImpl(private val client: HttpClient) : MovieService {
 
-    override suspend fun getMovieData(requestParameter: Parameters): SearchResults {
+    override suspend fun getMovieData(parameters: Parameters): SearchResults {
         return client.get { url(MovieService.MOVIE_URL) }
     }
 
