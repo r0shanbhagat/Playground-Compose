@@ -21,7 +21,7 @@ sealed interface ViewState {
      * @property throwable
      * @constructor Create  Error
      */
-    data class Failure(val throwable: Throwable) : ViewState
+    data class Failure(val throwable: Throwable? = null) : ViewState
 
     /**
      * Loading

@@ -1,9 +1,9 @@
-package com.digital.playground.data.mapper
+package com.playground.movie.data.mapper
 
-import com.playground.movie.contract.EntityMapper
-import com.playground.movie.data.dto.MovieModel
+import com.playground.movie.contract.ResponseMapper
+import com.playground.movie.data.dto.MovieDetailUI
 import com.playground.movie.data.dto.Search
-import com.playground.movie.data.dto.SearchResults
+import com.playground.movie.data.dto.SearchResultResponse
 
 
 /**
@@ -12,10 +12,11 @@ import com.playground.movie.data.dto.SearchResults
  *
  * @constructor
  */
-class MovieMapper : EntityMapper<Search, MovieModel> {
+class MovieMapper : ResponseMapper<Search, MovieDetailUI> {
 
-    override fun mapFromEntity(entity: Search): MovieModel {
-        return MovieModel(
+
+    override fun responseToUIModel(entity: Search): MovieDetailUI {
+        return MovieDetailUI(
             title = entity.title,
             body = entity.type,
             image = entity.poster,
@@ -30,9 +31,9 @@ class MovieMapper : EntityMapper<Search, MovieModel> {
      * @param entities
      * @return
      */
-    fun mapFromEntityList(entities: SearchResults?): List<MovieModel> {
+    fun mapFromSearchResponse(entities: SearchResultResponse?): List<MovieDetailUI> {
         return entities?.searches?.map {
-            mapFromEntity(it)
+            responseToUIModel(it)
         } ?: emptyList()
     }
 

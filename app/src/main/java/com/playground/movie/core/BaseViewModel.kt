@@ -1,11 +1,9 @@
 package com.playground.movie.core
 
 import androidx.lifecycle.ViewModel
-
+import org.koin.core.component.KoinComponent
 
 /**
- * @Details BaseViewModel extends the ViewModel
- * @Author Roshan Bhagat
- * @constructor Create Base view model
+ * Base VM for corresponding sub View Models to extend and take advantage of DI.
  */
-open class BaseViewModel : ViewModel()
+abstract class BaseViewModel : ViewModel(), KoinComponent

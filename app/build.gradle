@@ -1,7 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
-    id 'org.jetbrains.kotlin.plugin.serialization'
+    id 'kotlinx-serialization'
     id 'kotlin-kapt'
 }
 
@@ -82,8 +82,9 @@ dependencies {
     // implementation "io.ktor:ktor-client-core:$ktor_version"
     implementation "io.ktor:ktor-client-android:$ktor_version"
     implementation "io.ktor:ktor-client-logging:$ktor_version"
-    implementation "io.ktor:ktor-serialization-kotlinx-json:$ktor_version"
     implementation "io.ktor:ktor-client-content-negotiation:$ktor_version"
+    implementation "io.ktor:ktor-serialization-kotlinx-json:$ktor_version"
+
 
     /************************************* DEPENDENCY INJECTION ***********************************/
     implementation "io.insert-koin:koin-android:$koin_version"
@@ -91,7 +92,7 @@ dependencies {
     implementation "io.insert-koin:koin-androidx-compose:$koin_compose_version"
     // Koin for Kotlin apps
     implementation "io.insert-koin:koin-ktor:$koin_version"
-    implementation "io.insert-koin:koin-logger-slf4j:$koin_version"
+    //implementation "io.insert-koin:koin-logger-slf4j:$koin_version"
 
     /************************************* Unit Testing *******************************************/
     testImplementation 'junit:junit:4.13.2'

@@ -7,7 +7,6 @@ import kotlinx.serialization.Serializable
  * @Details MovieModel
  * @Author Roshan Bhagat
  */
-
 @Serializable
 data class Search(
     @SerialName("Poster")

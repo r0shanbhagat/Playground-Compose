@@ -1,41 +1,37 @@
 package com.playground.movie.ui.viewmodel
 
 import androidx.lifecycle.viewModelScope
-import com.playground.movie.contract.MovieRepository
+import com.playground.movie.contract.MovieUseCase
 import com.playground.movie.core.BaseViewModel
-import com.playground.movie.data.dto.MovieModel
 import com.playground.movie.utils.ViewState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 
 /**
  * @Details Movie parse view model : Viewmodel to handle all the business logic
  * @Author Roshan Bhagat
  * StateFlow :https://developer.android.com/topic/architecture/ui-layer#views
+ * @property movieUseCase: A bridge object to communicate b/w your repo and data source
  * @constructor
  */
-class MovieViewModel(private val movieRepository: MovieRepository) : BaseViewModel() {
+class MovieViewModel(
+    private val movieUseCase: MovieUseCase
+) : BaseViewModel() {
 
     private val _uiState: MutableStateFlow<ViewState> by lazy {
         MutableStateFlow(ViewState.Loading)
     }
-
     val uiState: StateFlow<ViewState> = _uiState.asStateFlow()
-
-    private var moviesList: ArrayList<MovieModel> = ArrayList()
-
-    init {
-        setStateIntent(MovieStateEvent.GetMoviesList)
-    }
 
     /**
      * Set state intent
      *
      * @param mainStateEvent
      */
-    private fun setStateIntent(mainStateEvent: MovieStateEvent) {
+    internal fun setStateIntent(mainStateEvent: MovieStateEvent) {
         when (mainStateEvent) {
             is MovieStateEvent.GetMoviesList -> {
                 getMovieList()
@@ -52,22 +48,15 @@ class MovieViewModel(private val movieRepository: MovieRepository) : BaseViewMod
      */
     private fun getMovieList() {
         viewModelScope.launch {
-            moviesList.clear()
-            movieRepository
-                .getMovieList()
-                //TODO handled the Error Sceanrio
-//                .catch { exception ->
-//                    _uiState.value = ViewState.Failure(exception)
-//                }
-                .collect { it ->
-                    moviesList.addAll(it)
-                    moviesList.sortByDescending {
-                        it.year
-                    }
-
-                    _uiState.emit(ViewState.Success(moviesList))
+            movieUseCase.getMovieDetailList(Unit).catch {
+                _uiState.value = ViewState.Failure(it)
+            }.collect {
+                if (it.isNotEmpty()) {
+                    _uiState.emit(ViewState.Success(it))
+                } else {
+                    _uiState.emit(ViewState.Failure())
                 }
-
+            }
         }
 
     }

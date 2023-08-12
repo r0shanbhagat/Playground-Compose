@@ -1,8 +1,8 @@
-package com.playground.movie.data.api
+package com.playground.movie.data.network
 
 import com.playground.movie.BuildConfig
-import com.playground.movie.data.dto.SearchResults
-import io.ktor.http.*
+import com.playground.movie.data.dto.SearchResultResponse
+import io.ktor.http.Parameters
 
 
 /**
@@ -22,9 +22,9 @@ interface MovieService {
      * @param parameters API Key
      *  searchTitle feature source the movie should come from
      *  pageIndex Page number of the data where the movie should come from
-     *  Response instance of [SearchResults] type
+     *  Response instance of [SearchResultResponse] type
      */
-    suspend fun getMovieData(parameters: Parameters): SearchResults
+    suspend fun getMovieData(parameters: Parameters): SearchResultResponse?
 
 
 }

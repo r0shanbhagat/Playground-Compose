@@ -1,6 +1,6 @@
-package com.playground.movie.data.api
+package com.playground.movie.data.network
 
-import com.playground.movie.data.dto.SearchResults
+import com.playground.movie.data.dto.SearchResultResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
@@ -14,8 +14,10 @@ import io.ktor.http.Parameters
  */
 class MovieServiceImpl(private val client: HttpClient) : MovieService {
 
-    override suspend fun getMovieData(parameters: Parameters): SearchResults {
-        return client.get { url(MovieService.MOVIE_URL) }.body()
+    override suspend fun getMovieData(parameters: Parameters): SearchResultResponse? {
+        return client.get {
+            url(MovieService.MOVIE_URL)
+        }.body()
     }
 
 }

@@ -15,15 +15,16 @@ import org.koin.core.logger.Level
  * @Author Roshan Bhagat
  */
 
-class PlaygroundApp : Application(), ImageLoaderFactory {
+class MovieApp : Application(), ImageLoaderFactory {
     override fun onCreate() {
         super.onCreate()
+        instance = this
         initKoin()
     }
 
     private fun initKoin() {
         startKoin {
-            androidContext(this@PlaygroundApp)
+            androidContext(this@MovieApp)
             androidLogger(Level.DEBUG)
             modules(appModule)
         }
@@ -42,5 +43,10 @@ class PlaygroundApp : Application(), ImageLoaderFactory {
                 add(SvgDecoder.Factory())
             }
             .build()
+    }
+
+    companion object {
+        lateinit var instance: MovieApp
+            private set
     }
 }

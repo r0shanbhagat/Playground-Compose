@@ -9,6 +9,11 @@ import org.koin.dsl.module
 // Main Koin Module
 val appModule = module {
     includes(
-        viewmodelKoinModule, networkKoinModule, dispatcherKoinModule, movieRepositoryKoinModule
+        viewmodelKoinModule,
+        useCaseKoinModule,
+        movieRepositoryKoinModule,
+        movieDsKoinModule,
+        networkKoinModule,
+        dispatcherKoinModule,
     )
 }

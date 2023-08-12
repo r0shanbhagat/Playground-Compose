@@ -3,7 +3,7 @@ package com.playground.movie.data.dto
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class MovieModel(
+data class MovieDetailUI(
     var title: String,
     var body: String,
     var image: String,

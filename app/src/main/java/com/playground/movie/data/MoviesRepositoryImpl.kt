@@ -1,13 +1,8 @@
 package com.playground.movie.data
 
-import com.digital.playground.data.mapper.MovieMapper
-import com.playground.movie.BuildConfig
+import com.playground.movie.contract.MovieDataSource
 import com.playground.movie.contract.MovieRepository
-import com.playground.movie.data.api.MovieService
-import com.playground.movie.data.dto.MovieModel
-import io.ktor.http.*
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 
@@ -19,7 +14,7 @@ import kotlinx.coroutines.flow.flowOn
  * @constructor Create [MoviesRepositoryImpl]
  */
 class MoviesRepositoryImpl(
-    override val apiService: MovieService,
+    private val remoteDataSource: MovieDataSource,
     private val ioDispatcher: CoroutineDispatcher
 ) : MovieRepository {
 
@@ -30,22 +25,10 @@ class MoviesRepositoryImpl(
      * only the data that the other layers of the hierarchy require. For example, here is how you
      * might trim down the SearchResults from the network in order to expose an Movie model
      * class to the domain and UI layers: With Helper of Mapper
-     *
-     * @param searchTitle
-     * @param pageIndex
-     * @return
+     ** @return
      */
-    override suspend fun getMovieList(): Flow<List<MovieModel>> {
-        val builder = ParametersBuilder().apply {
-            append("s", "Avenger")
-            append("apiKey", BuildConfig.API_KEY)
-            append("page", "1")
-        }.build()
-        return flow {
-            val searchResults = apiService.getMovieData(builder)
-            emit(MovieMapper().mapFromEntityList(searchResults))
-        }.flowOn(ioDispatcher)
-    }
-
+    override suspend fun getMovieList() = flow {
+        emit(remoteDataSource.getMovieList())
+    }.flowOn(ioDispatcher)
 
 }

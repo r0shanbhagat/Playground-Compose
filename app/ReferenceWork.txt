@@ -1,0 +1,12 @@
+Article Reference:
+1.KTOR DEMO
+https://proandroiddev.com/ktor-client-decoded-what-why-how-and-when-c6dca7559390
+https://github.com/hiteshchopra11/KtorClientDemo
+2.KTOR OFFICIAL DOC
+https://ktor.io/docs/getting-started-ktor-client.html
+https://ktor.io/docs/migrating-2.html#testing-api
+
+3. UseCase-Clean Code Architecture:
+https://medium.com/@BerkOzyurt/android-clean-architecture-mvvm-usecase-ae1647f0aea3
+https://developer.android.com/kotlin/coroutines/coroutines-best-practices
+
