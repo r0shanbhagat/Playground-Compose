@@ -1,4 +1,4 @@
-package com.digital.playground.contract
+package com.playground.movie.contract
 
 /**
  * @Details EntityMapper: It helps to create the Model from Existing response source.

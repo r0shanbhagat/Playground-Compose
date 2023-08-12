@@ -1,10 +1,9 @@
 package com.digital.playground.data.mapper
 
-import com.digital.playground.contract.EntityMapper
+import com.playground.movie.contract.EntityMapper
 import com.playground.movie.data.dto.MovieModel
 import com.playground.movie.data.dto.Search
 import com.playground.movie.data.dto.SearchResults
-import javax.inject.Inject
 
 
 /**
@@ -13,8 +12,7 @@ import javax.inject.Inject
  *
  * @constructor
  */
-class MovieMapper @Inject constructor() :
-    EntityMapper<Search, MovieModel> {
+class MovieMapper : EntityMapper<Search, MovieModel> {
 
     override fun mapFromEntity(entity: Search): MovieModel {
         return MovieModel(

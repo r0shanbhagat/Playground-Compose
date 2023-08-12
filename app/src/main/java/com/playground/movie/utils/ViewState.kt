@@ -5,7 +5,7 @@ package com.playground.movie.utils
  * the business logic in more clear way
  * @Author Roshan Bhagat
  */
-open class ViewState {
+sealed interface ViewState {
 
     /**
      * Success
@@ -13,20 +13,20 @@ open class ViewState {
      * @property data
      * @constructor Create Success
      */
-    data class Success(val data: Any?) : ViewState()
+    data class Success(val data: Any?) : ViewState
 
     /**
      * Error
      *
-     * @property exception
+     * @property throwable
      * @constructor Create  Error
      */
-    data class Failure(val throwable: Throwable) : ViewState()
+    data class Failure(val throwable: Throwable) : ViewState
 
     /**
      * Loading
      *
      * @constructor Create empty Loading
      */
-    object Loading : ViewState()
+    data object Loading : ViewState
 }

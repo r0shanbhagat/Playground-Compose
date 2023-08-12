@@ -1,19 +1,14 @@
 package com.playground.movie.ui.viewmodel
 
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
-import com.playground.movie.contract.Repository
+import com.playground.movie.contract.MovieRepository
 import com.playground.movie.core.BaseViewModel
 import com.playground.movie.data.dto.MovieModel
 import com.playground.movie.utils.ViewState
-import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 /**
  * @Details Movie parse view model : Viewmodel to handle all the business logic
@@ -21,16 +16,13 @@ import javax.inject.Inject
  * StateFlow :https://developer.android.com/topic/architecture/ui-layer#views
  * @constructor
  */
-@HiltViewModel
-class MovieViewModel @Inject constructor(
-    private val repository: Repository
-) : BaseViewModel() {
+class MovieViewModel(private val movieRepository: MovieRepository) : BaseViewModel() {
 
-    private val _uiState: MutableState<ViewState> by lazy {
-        mutableStateOf(ViewState())
+    private val _uiState: MutableStateFlow<ViewState> by lazy {
+        MutableStateFlow(ViewState.Loading)
     }
 
-    val uiState: State<ViewState> = _uiState
+    val uiState: StateFlow<ViewState> = _uiState.asStateFlow()
 
     private var moviesList: ArrayList<MovieModel> = ArrayList()
 
@@ -61,21 +53,19 @@ class MovieViewModel @Inject constructor(
     private fun getMovieList() {
         viewModelScope.launch {
             moviesList.clear()
-            repository
+            movieRepository
                 .getMovieList()
-                .onStart {
-                    _uiState.value = ViewState.Loading
-                }
-                .catch { exception ->
-                    _uiState.value = ViewState.Failure(exception)
-                }
+                //TODO handled the Error Sceanrio
+//                .catch { exception ->
+//                    _uiState.value = ViewState.Failure(exception)
+//                }
                 .collect { it ->
                     moviesList.addAll(it)
                     moviesList.sortByDescending {
                         it.year
                     }
 
-                    _uiState.value = ViewState.Success(moviesList)
+                    _uiState.emit(ViewState.Success(moviesList))
                 }
 
         }
@@ -96,12 +86,12 @@ sealed class MovieStateEvent {
      *
      * @constructor
      */
-    object GetMoviesList : MovieStateEvent()
+    data object GetMoviesList : MovieStateEvent()
 
     /**
      * None
      *
      * @constructor Create empty None
      */
-    object None : MovieStateEvent()
+    data object None : MovieStateEvent()
 }

@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.Flow
  * @param
  * @constructor Create Repository
  */
-interface Repository {
+interface MovieRepository {
 
     val apiService: MovieService
 

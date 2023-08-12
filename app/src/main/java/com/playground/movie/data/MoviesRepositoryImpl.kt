@@ -1,33 +1,27 @@
 package com.playground.movie.data
 
 import com.digital.playground.data.mapper.MovieMapper
-import com.digital.playground.di.IoDispatcher
 import com.playground.movie.BuildConfig
-import com.playground.movie.contract.Repository
+import com.playground.movie.contract.MovieRepository
 import com.playground.movie.data.api.MovieService
 import com.playground.movie.data.dto.MovieModel
-import dagger.hilt.android.scopes.ViewModelScoped
 import io.ktor.http.*
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
-import javax.inject.Inject
 
 
 /**
  * @Details BlogRepository
  * @Author Roshan Bhagat
- * @property movieMapper
  * @property ioDispatcher
- * @constructor Create [MoviesRepository]
+ * @constructor Create [MoviesRepositoryImpl]
  */
-@ViewModelScoped
-class MoviesRepository @Inject constructor(
+class MoviesRepositoryImpl(
     override val apiService: MovieService,
-    private val movieMapper: MovieMapper,
-    @IoDispatcher private val ioDispatcher: CoroutineDispatcher
-) : Repository {
+    private val ioDispatcher: CoroutineDispatcher
+) : MovieRepository {
 
     /**
      * The app doesn't need that much information about the movies because it only displays the
@@ -49,7 +43,7 @@ class MoviesRepository @Inject constructor(
         }.build()
         return flow {
             val searchResults = apiService.getMovieData(builder)
-            emit(movieMapper.mapFromEntityList(searchResults))
+            emit(MovieMapper().mapFromEntityList(searchResults))
         }.flowOn(ioDispatcher)
     }
 
