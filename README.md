@@ -2,14 +2,12 @@
 ## Introduction      
 Playground-Compose is a implementation of the popular images source feature of 500px which using the [500px API](https://github.com/500px/legacy-api-documentation) built using modern Android development strategies focusing on the following key aspects:     
 - Clean Architecture
-- MVVM
-- Dependency Injection (Hilt)
+- Dependency Injection (Koin)
 - Jetpack Compose
-- Kotlin Coroutines
+- Coroutines & Flows
 - Git
-- KTOR Client
+- KTOR Client: 2.3+
 - Kotlin Serialization
-- Kotlin Flow    
 - COIL -Image Loading
     
 ## App Overview      

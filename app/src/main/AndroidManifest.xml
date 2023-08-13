@@ -14,7 +14,7 @@
         android:theme="@style/Theme.MovieCompose"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".ui.view.MovieActivity"
+            android:name=".ui.MovieActivity"
             android:exported="true"
             android:theme="@style/Theme.MovieCompose">
             <intent-filter>

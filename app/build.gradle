@@ -6,7 +6,9 @@ plugins {
 }
 
 android {
-    compileSdk rootProject.ext.compileSdkVersion
+    compileSdk = rootProject.ext.compileSdkVersion
+    compileSdkPreview = "UpsideDownCake"
+    namespace = 'com.playground.movie'
 
     defaultConfig {
         applicationId "com.playground.movie"
@@ -18,28 +20,15 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
     }
-    kotlinOptions {
-        jvmTarget = '17'
-    }
-    buildFeatures {
-        compose true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion rootProject.ext.compose_version
-    }
-    packagingOptions {
-        resources {
-            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 
@@ -58,17 +47,34 @@ android {
 
         }
     }
-    namespace 'com.playground.movie'
+
+    kotlinOptions {
+        jvmTarget = '17'
+    }
+    buildFeatures {
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion rootProject.ext.kotlin_compiler_version
+    }
+    packagingOptions {
+        resources {
+            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        }
+    }
+
 }
 
 dependencies {
     /************************************* COMPOSE UI *********************************************/
-    implementation "androidx.compose.ui:ui:$composeUI_version"
-    implementation "androidx.compose.material:material:$composeUI_version"
-    implementation "androidx.compose.ui:ui-tooling-preview:$composeUI_version"
-    debugImplementation "androidx.compose.ui:ui-tooling:$composeUI_version"
+    implementation "androidx.compose.ui:ui:$compose_version"
+    implementation "androidx.compose.material:material:$compose_version"
+    implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
+    debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
+    implementation "androidx.compose.material:material-icons-extended:$compose_version"
     implementation 'androidx.activity:activity-compose:1.7.2'
     implementation 'androidx.lifecycle:lifecycle-runtime-compose:2.6.1'
+    implementation "androidx.navigation:navigation-compose:$nav_version"
 
     /************************************* COROUTINES *********************************************/
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3'
@@ -88,11 +94,9 @@ dependencies {
 
     /************************************* DEPENDENCY INJECTION ***********************************/
     implementation "io.insert-koin:koin-android:$koin_version"
-    implementation "io.insert-koin:koin-androidx-navigation:$koin_version"
     implementation "io.insert-koin:koin-androidx-compose:$koin_compose_version"
     // Koin for Kotlin apps
     implementation "io.insert-koin:koin-ktor:$koin_version"
-    //implementation "io.insert-koin:koin-logger-slf4j:$koin_version"
 
     /************************************* Unit Testing *******************************************/
     testImplementation 'junit:junit:4.13.2'
@@ -101,4 +105,8 @@ dependencies {
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:1.5.0"
     testImplementation "io.insert-koin:koin-test-junit4:$koin_version"
 
+}
+
+kapt {
+    correctErrorTypes = true
 }

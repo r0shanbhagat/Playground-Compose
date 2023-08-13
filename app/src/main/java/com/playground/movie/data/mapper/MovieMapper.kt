@@ -15,13 +15,13 @@ import com.playground.movie.data.dto.SearchResultResponse
 class MovieMapper : ResponseMapper<Search, MovieDetailUI> {
 
 
-    override fun responseToUIModel(entity: Search): MovieDetailUI {
+    override fun responseToUIModel(response: Search): MovieDetailUI {
         return MovieDetailUI(
-            title = entity.title,
-            body = entity.type,
-            image = entity.poster,
-            year = entity.year,
-            imdb = entity.imdb
+            title = response.title,
+            body = response.type,
+            image = response.poster,
+            year = response.year,
+            imdb = response.imdb
         )
     }
 

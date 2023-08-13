@@ -15,11 +15,12 @@ ext {
     compileSdkVersion = 34
     targetSdkVersion = 34
 
-    compose_version = '1.5.1'
+    kotlin_compiler_version = '1.5.1'
     koin_version = '3.4.3'
     koin_compose_version = '3.4.6'
     ktor_version = '2.3.3'
     coil_version = '2.4.0'
-    composeUI_version = '1.6.0-alpha02'
+    compose_version = '1.6.0-alpha02'
+    nav_version = "2.7.0"
 
 }
