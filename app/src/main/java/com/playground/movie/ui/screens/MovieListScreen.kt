@@ -34,12 +34,7 @@ import com.playground.movie.utils.ViewState
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun MovieListScreen(id: String, viewModel: MovieViewModel = koinViewModel()) {
-    //Triggering the Service call
-    Toast.makeText(
-        LocalContext.current, "Something we received:$id", Toast.LENGTH_LONG
-    ).show()
-
+fun MovieListScreen(viewModel: MovieViewModel = koinViewModel()) {
     viewModel.setStateIntent(MovieStateEvent.GetMoviesList)
     val uiState: ViewState by viewModel.uiState.collectAsStateWithLifecycle()
     Column(

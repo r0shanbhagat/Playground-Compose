@@ -25,6 +25,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -81,16 +82,15 @@ fun HeadingTextComponent(value: String) {
 }
 
 @Composable
-fun MyTextFieldComponent(labelValue: String, painterResource: Painter) {
-
-    val textValue = remember {
-        mutableStateOf("")
-    }
+fun MyTextFieldComponent(
+    labelValue: String, textValue: MutableState<String>, painterResource: Painter
+) {
     val localFocusManager = LocalFocusManager.current
 
-    OutlinedTextField(modifier = Modifier
-        .fillMaxWidth()
-        .clip(componentShapes.small),
+    OutlinedTextField(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(componentShapes.small),
         label = { Text(text = labelValue) },
         colors = TextFieldDefaults.outlinedTextFieldColors(
             focusedBorderColor = Primary,
@@ -112,12 +112,11 @@ fun MyTextFieldComponent(labelValue: String, painterResource: Painter) {
 
 
 @Composable
-fun PasswordTextFieldComponent(labelValue: String, painterResource: Painter) {
+fun PasswordTextFieldComponent(
+    labelValue: String, textValue: MutableState<String>, painterResource: Painter
+) {
 
     val localFocusManager = LocalFocusManager.current
-    val password = remember {
-        mutableStateOf("")
-    }
 
     val passwordVisible = remember {
         mutableStateOf(false)
@@ -142,9 +141,9 @@ fun PasswordTextFieldComponent(labelValue: String, painterResource: Painter) {
             localFocusManager.clearFocus()
         },
         maxLines = 1,
-        value = password.value,
+        value = textValue.value,
         onValueChange = {
-            password.value = it
+            textValue.value = it
         },
         leadingIcon = {
             Icon(painter = painterResource, contentDescription = "")
@@ -186,7 +185,7 @@ fun CheckboxComponent(value: String, onTextSelected: (String) -> Unit) {
         }
 
         Checkbox(checked = checkedState.value, onCheckedChange = {
-            checkedState.value != checkedState.value
+            checkedState.value = it
         })
 
         ClickableTextComponent(value = value, onTextSelected)

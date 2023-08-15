@@ -3,8 +3,15 @@ package com.playground.movie.utils
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
+import androidx.core.net.toUri
+import androidx.navigation.NavController
+import androidx.navigation.NavDeepLinkRequest
+import androidx.navigation.NavDestination
+import androidx.navigation.NavOptions
+import androidx.navigation.Navigator
 import com.playground.movie.BuildConfig
 import com.playground.movie.MovieApp
 
@@ -75,3 +82,34 @@ fun isListNotEmpty(list: List<Any>?) = !(list?.isEmpty() ?: true)
  * @param value
  */
 fun String?.isValidString() = !TextUtils.isEmpty(this)
+
+
+/**
+ * Navigate with Arguments
+ *
+ * @receiver [NavController]
+ * @param route Route
+ * @param args Args
+ * @param navOptions Nav options
+ * @param navigatorExtras Navigator extras
+ */
+fun NavController.navigateWithArgs(
+    route: String,
+    args: Bundle,
+    navOptions: NavOptions? = null,
+    navigatorExtras: Navigator.Extras? = null
+) {
+    val routeLink = NavDeepLinkRequest
+        .Builder
+        .fromUri(NavDestination.createRoute(route).toUri())
+        .build()
+
+    val deepLinkMatch = graph.matchDeepLink(routeLink)
+    if (deepLinkMatch != null) {
+        val destination = deepLinkMatch.destination
+        val id = destination.id
+        navigate(id, args, navOptions, navigatorExtras)
+    } else {
+        navigate(route, navOptions, navigatorExtras)
+    }
+}

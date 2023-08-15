@@ -6,8 +6,9 @@ import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
-import com.playground.movie.ui.navigation.BuildNavGraph
+import com.playground.movie.ui.navigation.NavGraph
 import com.playground.movie.ui.theme.MovieComposeTheme
+
 
 class MovieActivity : ComponentActivity() {
 
@@ -28,7 +29,7 @@ class MovieActivity : ComponentActivity() {
     private fun MovieApp() {
         MovieComposeTheme {
             val navController = rememberNavController()
-            BuildNavGraph(navController)
+            NavGraph(navController)
         }
     }
 
