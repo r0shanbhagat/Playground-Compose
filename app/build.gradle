@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlinx-serialization'
     id 'kotlin-kapt'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -90,13 +91,19 @@ dependencies {
     implementation "io.ktor:ktor-client-logging:$ktor_version"
     implementation "io.ktor:ktor-client-content-negotiation:$ktor_version"
     implementation "io.ktor:ktor-serialization-kotlinx-json:$ktor_version"
-
+    implementation "io.ktor:ktor-client-okhttp:$ktor_version"
 
     /************************************* DEPENDENCY INJECTION ***********************************/
     implementation "io.insert-koin:koin-android:$koin_version"
     implementation "io.insert-koin:koin-androidx-compose:$koin_compose_version"
     // Koin for Kotlin apps
     implementation "io.insert-koin:koin-ktor:$koin_version"
+
+    /************************************* FIREBASE *******************************************/
+    // Import the BoM for the Firebase platform
+    implementation(platform("com.google.firebase:firebase-bom:32.3.1"))
+    implementation("com.google.firebase:firebase-config-ktx")
+    implementation("com.google.firebase:firebase-analytics-ktx")
 
     /************************************* Unit Testing *******************************************/
     testImplementation 'junit:junit:4.13.2'

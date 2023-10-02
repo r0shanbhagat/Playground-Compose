@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?><!-- START xml_defaults -->
+<defaultsMap>
+    <entry>
+        <key>QA</key>
+        <value>
+            {"PcsConfig":{"urlbase":"https://sha256.badssl.com","bundleHeaders":[{"headerName":"Accept","headerValue":"json"}],"metaConfig":{"index":1,"enabled":true,"pinningCerts":["sha256/C5+lpZ7tcVwmwQIMcRtPbsQtWLABXhQzejna0wHFr8M="]}}}
+        </value>
+    </entry>
+</defaultsMap><!-- END xml_defaults -->

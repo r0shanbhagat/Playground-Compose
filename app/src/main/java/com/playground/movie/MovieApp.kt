@@ -5,6 +5,8 @@ import coil.ImageLoader
 import coil.ImageLoaderFactory
 import coil.decode.SvgDecoder
 import com.playground.movie.di.appModule
+import com.playground.movie.utils.AppSession
+import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -16,6 +18,9 @@ import org.koin.core.logger.Level
  */
 
 class MovieApp : Application(), ImageLoaderFactory {
+
+    internal val sessionData: AppSession by inject()
+
     override fun onCreate() {
         super.onCreate()
         instance = this
@@ -38,15 +43,18 @@ class MovieApp : Application(), ImageLoaderFactory {
      * @see https://github.com/coil-kt/coil/blob/main/coil-singleton/src/main/java/coil/Coil.kt#L63
      */
     override fun newImageLoader(): ImageLoader {
-        return ImageLoader.Builder(this)
-            .components {
-                add(SvgDecoder.Factory())
-            }
-            .build()
+        return ImageLoader.Builder(this).components {
+            add(SvgDecoder.Factory())
+        }.build()
     }
+
+    override fun onTerminate() {
+        super.onTerminate()
+        sessionData.clear()
+    }
+
 
     companion object {
         lateinit var instance: MovieApp
-            private set
     }
 }

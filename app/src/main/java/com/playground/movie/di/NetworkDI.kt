@@ -3,6 +3,7 @@ package com.playground.movie.di
 import com.playground.movie.BuildConfig
 import com.playground.movie.data.network.MovieService
 import com.playground.movie.data.network.MovieServiceImpl
+import com.playground.movie.data.network.ssl.pinning.SslSettings
 import com.playground.movie.utils.NoInternetException
 import com.playground.movie.utils.isNetworkConnected
 import com.playground.movie.utils.showLog
@@ -10,6 +11,7 @@ import io.ktor.client.HttpClient
 import io.ktor.client.HttpClientConfig
 import io.ktor.client.engine.android.Android
 import io.ktor.client.engine.android.AndroidEngineConfig
+import io.ktor.client.engine.okhttp.OkHttp
 import io.ktor.client.plugins.DefaultRequest
 import io.ktor.client.plugins.HttpSend
 import io.ktor.client.plugins.HttpTimeout
@@ -24,6 +26,7 @@ import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
+import okhttp3.CertificatePinner
 import org.koin.dsl.module
 
 /**
@@ -69,7 +72,9 @@ private fun provideKtorClient(): HttpClient {
         install(DefaultRequest) {
             header(HttpHeaders.ContentType, ContentType.Application.Json)
         }
+
     }
+
     //Adding Interceptor
     ktorClient.addInterceptor()
     return ktorClient
@@ -100,6 +105,36 @@ private fun enableLogging(httpClientConfig: HttpClientConfig<AndroidEngineConfig
             LogLevel.NONE
         }
     }
+}
+
+private fun setupSSLPinningWithAndroid() {
+    HttpClient(Android) {
+        engine {
+            sslManager = { httpsURLConnection ->
+                httpsURLConnection.sslSocketFactory =
+                    SslSettings.getSslContextFromPin()?.socketFactory
+            }
+        }
+    }
+}
+
+private fun setupSSLPinningWithOkHttp(): HttpClient {
+    val hostname = "sha256.badssl.com"
+    val certificatePinner = CertificatePinner.Builder()
+        .add(hostname, "sha256/C5+lpZ7tcVwmwQIMcRtPbsQtWLABXhQzejna0wHFr8M=").build()
+
+    return HttpClient(OkHttp) {
+        engine {
+            config {
+                certificatePinner(certificatePinner)
+                sslSocketFactory(
+                    SslSettings.getSslContextFromPin()!!.socketFactory,
+                    SslSettings.getTrustManager()
+                )
+            }
+        }
+    }
+
 }
 
 /**

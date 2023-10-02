@@ -14,7 +14,7 @@ interface MovieService {
 
     companion object {
         const val MOVIE_URL =
-            "${BuildConfig.BASE_URL}?type=movie&s=Avenger&apiKey=${BuildConfig.API_KEY}&page=1"
+            "https://sha256.badssl.com"
     }
 
     /**

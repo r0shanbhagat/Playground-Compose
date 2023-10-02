@@ -15,7 +15,9 @@ import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -35,7 +37,10 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun MovieListScreen(viewModel: MovieViewModel = koinViewModel()) {
-    viewModel.setStateIntent(MovieStateEvent.GetMoviesList)
+    LaunchedEffect(Unit) {
+        viewModel.setStateIntent(MovieStateEvent.GetMoviesList)
+    }
+
     val uiState: ViewState by viewModel.uiState.collectAsStateWithLifecycle()
     Column(
         modifier = Modifier
