@@ -37,13 +37,13 @@ android {
     productFlavors {
         create("dev") {
             resValue("string", "app_name", "OmDb App Dev")
-            buildConfigField("String", "BASE_URL", "\"http://www.omdbapi.com/\"")
+            buildConfigField("String", "BASE_URL", "\"https://www.omdbapi.com/\"")
             buildConfigField("String", "API_KEY", "\"259d2b8b\"")
 
         }
         create("production") {
             resValue("string", "app_name", "OmDb App")
-            buildConfigField("String", "BASE_URL", "\"http://www.omdbapi.com/\"")
+            buildConfigField("String", "BASE_URL", "\"https://www.omdbapi.com/\"")
             buildConfigField("String", "API_KEY", "\"259d2b8b\"")
 
         }
